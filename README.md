@@ -1,5 +1,7 @@
 # Expense Tracker
 
+![CI](https://github.com/professionaldevvikram-droid/ExpenseTracker/actions/workflows/ci.yml/badge.svg)
+
 A multi-user expense tracker with budgets, charts and Excel export. Built with ASP.NET Core, SQL Server and plain JavaScript.
 
 ## Features
