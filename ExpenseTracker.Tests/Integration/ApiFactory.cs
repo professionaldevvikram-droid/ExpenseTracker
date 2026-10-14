@@ -22,8 +22,7 @@ public class ApiFactory : WebApplicationFactory<ExpenseService>
     public ApiFactory()
     {
         var database = $"ExpenseTrackerTests_{Guid.NewGuid():N}";
-        _connectionString =
-            $"Server=(localdb)\\MSSQLLocalDB;Database={database};Trusted_Connection=True;TrustServerCertificate=True;";
+        _connectionString = BuildConnectionString(database);
 
         // Environment variables are the strongest setting source, so the API starts with these values.
         // They are set before the API starts, because Program.cs reads the JWT key straight away.
@@ -31,6 +30,18 @@ public class ApiFactory : WebApplicationFactory<ExpenseService>
         Environment.SetEnvironmentVariable("Jwt__Key", JwtKey);
         Environment.SetEnvironmentVariable("Serilog__WriteTo__1__Args__path",
             Path.Combine(Path.GetTempPath(), "expense-tracker-tests-.log"));      // keeps test logs out of your project
+    }
+
+    // On your PC the tests use LocalDB. On a build server, TEST_SQL_SERVER points at a SQL Server
+    // (without a database name) and the temporary database is created there instead.
+    private static string BuildConnectionString(string database)
+    {
+        var server = Environment.GetEnvironmentVariable("TEST_SQL_SERVER");
+
+        if (!string.IsNullOrWhiteSpace(server))
+            return $"{server.TrimEnd(';')};Database={database};";
+
+        return $"Server=(localdb)\\MSSQLLocalDB;Database={database};Trusted_Connection=True;TrustServerCertificate=True;";
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
