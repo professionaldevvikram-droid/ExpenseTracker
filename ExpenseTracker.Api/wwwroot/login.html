@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <button id="theme-toggle" class="icon-btn auth-theme" aria-label="Toggle theme">🌙</button>
+
+    <div class="auth-wrap">
+        <section class="card auth-card">
+            <h1>Welcome back</h1>
+            <p class="subtitle">Log in to your expense tracker</p>
+
+            <form id="login-form">
+                <label>
+                    Email
+                    <input type="email" id="email" autocomplete="email" placeholder="you@example.com" required>
+                </label>
+
+                <label>
+                    Password
+                    <input type="password" id="password" autocomplete="current-password" required>
+                </label>
+
+                <button type="submit" class="btn-primary" id="submit-btn">Log in</button>
+            </form>
+
+            <p class="auth-switch">New here? <a href="register.html">Create an account</a></p>
+        </section>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
+
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

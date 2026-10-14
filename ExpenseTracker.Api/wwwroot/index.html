@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+
+        <header class="topbar">
+            <div>
+                <h1>Expense Tracker</h1>
+                <p class="subtitle">Know where your money goes</p>
+            </div>
+            <div class="topbar-actions">
+                <a href="categories.html" class="btn-secondary btn-link">Categories</a>
+                <a href="add.html" class="btn-primary btn-link">+ Add expense</a>
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌙</button>
+            </div>
+        </header>
+
+        <section class="stats">
+            <div class="stat-card">
+                <span class="stat-label">Total spent</span>
+                <span class="stat-value" id="stat-total">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">This month</span>
+                <span class="stat-value" id="stat-month">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Transactions</span>
+                <span class="stat-value" id="stat-count">0</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Top category</span>
+                <span class="stat-value" id="stat-top">-</span>
+            </div>
+        </section>
+        <section class="charts">
+            <div class="card chart-card">
+                <h2>Spending by category</h2>
+                <div class="chart-box">
+                    <canvas id="category-chart"></canvas>
+                    <p class="chart-empty" id="category-empty" hidden>No expenses yet</p>
+                </div>
+            </div>
+
+            <div class="card chart-card">
+                <h2>Last 6 months</h2>
+                <div class="chart-box">
+                    <canvas id="trend-chart"></canvas>
+                </div>
+            </div>
+        </section>
+        <section class="card budget-card">
+            <div class="card-head">
+                <h2>Monthly budgets <span class="budget-month" id="budget-month"></span></h2>
+                <a href="categories.html" class="field-link">Set budgets</a>
+            </div>
+            <div id="budget-list" class="budget-list"></div>
+            <p class="budget-empty" id="budget-empty" hidden>
+                No budgets yet. Add a monthly limit to a category and it will be tracked here.
+            </p>
+        </section>
+        <section class="card">
+            <div class="card-head">
+                <h2>Recent expenses</h2>
+                <div class="head-actions">
+                    <input type="search" id="search" class="search" placeholder="Search...">
+                    <button type="button" id="filter-toggle" class="btn-secondary">
+                        Filters <span class="filter-count" id="filter-count" hidden>0</span>
+                    </button>
+                    <button type="button" id="export-open" class="btn-secondary">⬇ Export</button>
+                </div>
+            </div>
+
+            <div class="filters" id="filters" hidden>
+                <div class="filter-grid">
+                    <label>
+                        Category
+                        <select id="f-category">
+                            <option value="">All categories</option>
+                        </select>
+                    </label>
+                    <label>
+                        From
+                        <input type="date" id="f-from">
+                    </label>
+                    <label>
+                        To
+                        <input type="date" id="f-to">
+                    </label>
+                    <label>
+                        Min amount
+                        <input type="number" id="f-min" min="0" step="0.01" placeholder="0">
+                    </label>
+                    <label>
+                        Max amount
+                        <input type="number" id="f-max" min="0" step="0.01" placeholder="Any">
+                    </label>
+                    <label>
+                        Sort by
+                        <select id="f-sort">
+                            <option value="date_desc">Newest first</option>
+                            <option value="date_asc">Oldest first</option>
+                            <option value="amount_desc">Highest amount</option>
+                            <option value="amount_asc">Lowest amount</option>
+                            <option value="category_asc">Category A-Z</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="filter-actions">
+                    <button type="button" class="btn-secondary" id="q-this">This month</button>
+                    <button type="button" class="btn-secondary" id="q-last">Last month</button>
+                    <button type="button" class="btn-secondary" id="filter-clear">Clear filters</button>
+                </div>
+            </div>
+
+            <p class="results-line" id="results-line"></p>
+
+            <ul id="expense-list" class="expense-list"></ul>
+
+            <div id="empty-state" class="empty" hidden>
+                <div class="empty-icon">🧾</div>
+                <p>No expenses found.</p>
+                <a href="add.html" class="btn-primary btn-link">+ Add expense</a>
+            </div>
+
+            <div class="pagination" id="pagination" hidden>
+                <button type="button" id="prev-btn" class="page-btn">← Prev</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button type="button" id="next-btn" class="page-btn">Next →</button>
+            </div>
+        </section>
+
+    </div>
+
+    <dialog id="export-dialog" class="dialog">
+        <div class="dialog-inner">
+            <div class="dialog-head">
+                <h2>Export to Excel</h2>
+                <button type="button" id="export-close" class="icon-btn small" aria-label="Close">✕</button>
+            </div>
+
+            <div class="chips">
+                <button type="button" class="chip" data-range="today">Today</button>
+                <button type="button" class="chip" data-range="week">1 week</button>
+                <button type="button" class="chip" data-range="month">1 month</button>
+                <button type="button" class="chip" data-range="year">1 year</button>
+                <button type="button" class="chip" data-range="all">All time</button>
+            </div>
+
+            <div class="range-fields">
+                <label>
+                    From
+                    <input type="date" id="export-from">
+                </label>
+                <label>
+                    To
+                    <input type="date" id="export-to">
+                </label>
+            </div>
+
+            <p class="export-hint" id="export-hint"></p>
+
+            <button type="button" id="export-download" class="btn-primary">Download Excel</button>
+        </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status"></div>
+
+    <script src="js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

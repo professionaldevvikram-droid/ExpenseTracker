@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <button id="theme-toggle" class="icon-btn auth-theme" aria-label="Toggle theme">🌙</button>
+
+    <div class="auth-wrap">
+        <section class="card auth-card">
+            <h1>Create your account</h1>
+            <p class="subtitle">Start tracking your spending</p>
+
+            <form id="register-form">
+                <label>
+                    Name
+                    <input type="text" id="name" autocomplete="name" maxlength="100" required>
+                </label>
+
+                <label>
+                    Email
+                    <input type="email" id="email" autocomplete="email" placeholder="you@example.com" required>
+                </label>
+
+                <label>
+                    Password <span class="field-hint">at least 8 characters</span>
+                    <input type="password" id="password" autocomplete="new-password" minlength="8" required>
+                </label>
+
+                <label>
+                    Confirm password
+                    <input type="password" id="confirm" autocomplete="new-password" minlength="8" required>
+                </label>
+
+                <button type="submit" class="btn-primary" id="submit-btn">Create account</button>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+        </section>
+    </div>
+
+    <div id="toast" class="toast" role="status"></div>
+
+    <script src="js/common.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html>
