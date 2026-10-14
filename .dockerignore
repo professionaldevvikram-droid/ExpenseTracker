@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/logs/
+**/.vs/
+.git/
+.github/
+.env
+.env.*
+ExpenseTracker.Tests/
+*.md

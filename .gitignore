@@ -487,3 +487,5 @@ ExpenseTracker.Api/logs/
 .env
 .env.*
 secrets.json
+
+!.env.example

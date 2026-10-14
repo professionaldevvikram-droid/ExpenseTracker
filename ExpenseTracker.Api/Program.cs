@@ -148,6 +148,13 @@ try
 
     var app = builder.Build();
 
+    // Containers start with an empty database, so they set Database__MigrateOnStartup=true
+    if (app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
+    {
+        using var scope = app.Services.CreateScope();
+        scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+    }
+
     // One log line per API request: "HTTP GET /api/expenses responded 200 in 12.4 ms"
     app.UseSerilogRequestLogging(options =>
     {
